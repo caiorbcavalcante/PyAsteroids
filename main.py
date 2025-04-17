@@ -16,6 +16,9 @@ def main():
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     clock = pygame.time.Clock()  # Set the frame rate to 60 FPS
     dt = 0
+    updatable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+    Player.container = (updatable,drawable)
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -23,8 +26,8 @@ def main():
         dt = clock.tick(60) / 1000 # Convert milliseconds to seconds
             
         screen.fill("black")
-        player.draw(screen)
-        player.update(dt)
+        updatable.update(dt)
+        drawable.draw(screen)
         pygame.display.flip()
 
 if __name__ == "__main__":
