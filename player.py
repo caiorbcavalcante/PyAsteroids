@@ -1,4 +1,4 @@
-from circleshape import CircleShape
+from circleshape import *
 from constants import *
 import pygame
 
@@ -26,6 +26,16 @@ class Player(CircleShape):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
         self.position += forward * PLAYER_SPEED * dt
 
+    def shoot(self):
+        # Calculate the position at the front of the player's ship (tip of triangle)
+        forward = pygame.Vector2(0, 1).rotate(self.rotation)
+        start_pos = self.position + forward * self.radius
+    
+        # Create the shot at the front of the ship
+        shot = Shot(start_pos.x, start_pos.y)
+    
+        # Set the velocity in the direction the player is facing
+        shot.velocity = forward * PLAYER_SPEED_SHOT
     def update(self, dt):
         keys = pygame.key.get_pressed()
 
@@ -37,3 +47,6 @@ class Player(CircleShape):
             self.move(dt)
         if keys[pygame.K_s]:
             self.move(-dt)
+        if keys[pygame.K_SPACE]:
+            self.shoot()
+        
